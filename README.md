@@ -9,4 +9,6 @@
 
 - **Pheonix Framework**
 
-## [elixir official site](https://elixir-lang.org/)
+## [Elixir official site](https://elixir-lang.org/)
+
+## [Official docs](https://hexdocs.pm/learning)
