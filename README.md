@@ -7,7 +7,7 @@
 "Elixir" |> String.graphemes() |> Enum.frequencies()
 ```
 
-- **Pheonix Framework**
+- **Phoenix Framework**
 
 ## [Elixir official site](https://elixir-lang.org/)
 
