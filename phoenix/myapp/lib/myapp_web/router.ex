@@ -8,11 +8,11 @@ defmodule MyappWeb.Router do
     plug(:put_root_layout, html: {MyappWeb.Layouts, :root})
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug(MyappWeb.Plugs.Time, :utc_now)
+    plug(MyappWeb.Plugs.Locale, "en-US")
   end
 
   pipeline :timePlug do
-    plug(MyappWeb.Plugs.Time, :utc_now)
-    plug(MyappWeb.Plugs.Locale, "en-US")
   end
 
   pipeline :api do
@@ -34,7 +34,7 @@ defmodule MyappWeb.Router do
 
   # Other scopes may use custom stacks.
   # scope "/api", MyappWeb do
-  #   pipe_through :api
+  #   pipe_through(:api)
   # end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

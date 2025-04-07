@@ -2,7 +2,8 @@
 
 - **Functional Programming**
 - **Pipeline Syntax**
-
+- **Pattern Matching**
+- **Powerful**
 ```elixir
 "Elixir" |> String.graphemes() |> Enum.frequencies()
 ```

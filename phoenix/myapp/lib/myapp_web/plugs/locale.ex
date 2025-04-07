@@ -12,7 +12,6 @@ defmodule MyappWeb.Plugs.Locale do
 
   def call(conn, default) do
     language = get_req_header(conn, "accept-language")
-    # tz = [kr: 9, jp: 9, cn: 8, tw: 8, us: 0]
 
     locale =
       peak(language)
@@ -20,17 +19,24 @@ defmodule MyappWeb.Plugs.Locale do
       |> peak
 
     if locale in @locales do
-      # user_tz =
-      #   tz[String.split_at(locale, -2) |> elem(1) |> String.downcase() |> String.to_atom()]
       assign(conn, :locale, locale)
-
-      # assign(
-      #   conn,
-      #   :tz,
-      #
-      # )
     else
       assign(conn, :locale, default)
+    end
+  end
+
+  def getlocale(conn) do
+    language = get_req_header(conn, "accept-language")
+
+    locale =
+      peak(language)
+      |> String.split(",")
+      |> peak
+
+    if locale in @locales do
+      locale
+    else
+      "en-US"
     end
   end
 

@@ -8,6 +8,8 @@ defmodule MyappWeb.Plugs.Time do
   #   assign(conn, :time, Time.utc_now())
   # end
   def call(conn, _default) do
-    assign(conn, :time, Time.utc_now())
+    time = Time.utc_now()
+    IO.inspect(time)
+    assign(conn, :time, time)
   end
 end
