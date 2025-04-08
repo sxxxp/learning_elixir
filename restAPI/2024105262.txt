@@ -1,0 +1,1 @@
+https://hub.docker.com/layers/sxxxp/aa/elixir/images/sha256-c369c42fd0fe28a145ace0b553f92a8581745eff50d0382c0c2aa50de1cc2741

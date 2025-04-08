@@ -8,7 +8,7 @@ defmodule MyApp.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      {Plug.Cowboy, scheme: :http, plug: MyPlug, options: [port: 4001]}
+      {Bandit, plug: MyRouter, scheme: :http, port: 4000}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
