@@ -23,5 +23,9 @@ defmodule Socket.Chat do
 
   def handle_in(_frame, state), do: {:ok, state}
   def handle_info(_, state), do: {:ok, state}
-  def terminate(_, _state), do: :ok
+
+  def terminate(_, _state) do
+    IO.puts("Socket terminated")
+    :ok
+  end
 end
