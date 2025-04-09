@@ -3,9 +3,18 @@
 - **Functional Programming**
 - **Pipeline Syntax**
 - **Pattern Matching**
-- **Powerful**
+- **Meta Programming**
+
 ```elixir
 "Elixir" |> String.graphemes() |> Enum.frequencies()
+
+defmacro something(path, do: block) do
+    #some logic
+    unquote(block)
+end
+something "/hi" do
+    IO.puts("I love Elixir")
+end
 ```
 
 - **Phoenix Framework**
