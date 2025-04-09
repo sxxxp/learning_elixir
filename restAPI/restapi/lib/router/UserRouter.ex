@@ -1,4 +1,4 @@
-defmodule MyRouter.UserRouter2 do
+defmodule MyRouter.UserRouter do
   @moduledoc """
   /user router
 

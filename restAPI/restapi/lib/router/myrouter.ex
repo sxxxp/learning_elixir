@@ -12,8 +12,9 @@ defmodule MyRouter do
     send_resp(conn, 200, "hello!")
   end
 
-  forward("/user", to: MyRouter.UserRouter2)
+  forward("/user", to: MyRouter.UserRouter)
   forward("/chat", to: MyRouter.ChatRouter)
+  forward("/ws", to: MyRouter.SocketRouter)
 
   post "/login" do
     case [name, password] = extract_params(conn.params, ["name", "password"]) do
@@ -27,7 +28,7 @@ defmodule MyRouter do
         send_resp(conn, 400, "Missing password")
 
       [_, _] ->
-        send_resp(conn, 200, "Hello, your name #{name}")
+        send_resp(conn, 200, "Hello, your name #{name}, password #{password}")
     end
   end
 
