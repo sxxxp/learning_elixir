@@ -2,5 +2,6 @@ defmodule MyRouter.SocketRouter do
   use Router, :router
   import Socket
 
-  sock("/", Socket.Chat, :infinity, do: IO.puts("Socket connected!"))
+  sock "/:id", Socket.Chat, :infinity, id: id do
+  end
 end

@@ -11,6 +11,8 @@ defmodule MyApp.Application do
       {Bandit, plug: MyRouter, scheme: :http, port: 4000}
     ]
 
+    :pg.start_link()
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: MyApp.Supervisor]
