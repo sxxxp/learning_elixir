@@ -16,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/chat" element={<ChatList />} />
           <Route path="/chat/:id" element={<Chat />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -6,6 +6,7 @@ defmodule Socket.Chat do
 
   def init(options) do
     :pg.join({:chat_room, options[:id]}, self())
+    IO.puts("Socket initialized")
     {:ok, options}
   end
 
