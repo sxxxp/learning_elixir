@@ -3,6 +3,7 @@ defmodule Socket.Chat do
   import ChatLogger
   import Struct.Parser, only: [messageToStruct: 1]
   import Struct.Chat
+  import MyTime
 
   def init(options) do
     :pg.join({:chat_room, options[:id]}, self())
@@ -15,30 +16,30 @@ defmodule Socket.Chat do
     do_handle(message, state)
   end
 
-  def do_handle(%Struct.Chat{type: :join} = msg, state) do
+  def do_handle(%Struct.Chat{type: "join"} = msg, state) do
     data = read(state[:id]) <> "\n"
-    text = "[입장] #{msg.id} - #{msg.time}"
-    log(state[:id], text)
-    broadcast(:join, text, state)
-    {:push, {:text, data <> text}, state}
+    msg = migrate(msg)
+    log(state[:id], msg)
+    broadcast(:join, msg, state)
+    IO.inspect(msg)
+    IO.inspect(data)
+    {:push, {:text, data <> msg}, state}
   end
 
-  def do_handle(%Struct.Chat{type: :send} = msg, state) do
-    text = "#{msg.id}: #{msg.message} - #{msg.time}"
-    log(state[:id], text)
-    broadcast(:send, text, state)
-    {:push, {:text, text}, state}
+  def do_handle(%Struct.Chat{type: "send"} = msg, state) do
+    log(state[:id], msg)
+    broadcast(:send, msg, state)
+    {:push, {:text, msg}, state}
   end
 
-  def do_handle(%Struct.Chat{type: :exit} = msg, state) do
-    text = "[퇴장] #{msg.id} - #{msg.time}"
-    log(state[:id], text)
-    broadcast(:exit, text, state)
-    {:push, {:text, text}, state}
+  def do_handle(%Struct.Chat{type: "exit"} = msg, state) do
+    log(state[:id], msg)
+    broadcast(:exit, msg, state)
+    {:push, {:text, msg}, state}
   end
 
   def do_handle(_, state) do
-    {:ok, state}
+    {:push, {:text, "invaild_format"}, state}
   end
 
   def handle_info(send, _state) do

@@ -24,7 +24,7 @@ const ChatList = () => {
         ))}
         <li>
           <NavLink to={'/'} className={"chat-link"}>
-            홈으로 돌아가기 
+            🏠 홈으로 돌아가기 
           </NavLink>
         </li>
       </ul>

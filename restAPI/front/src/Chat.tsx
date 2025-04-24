@@ -69,68 +69,58 @@ const Chat: React.FC = () => {
     navigate("/404");
   }
 
-  const unloadFunc = (e: BeforeUnloadEvent) => {
-    e.preventDefault();
-  };
-  useBeforeUnload(unloadFunc);
+  // const unloadFunc = (e: BeforeUnloadEvent) => {
+  //   e.preventDefault();
+  //   socketRef.current?.send(messageFormat("exit", user, "퇴장"));
+  //   socketRef.current?.close();
+  //   socketRef.current = null;
+  // };
+  // useBeforeUnload(unloadFunc);
   const getTime = () => {
     const date = new Date();
+    const y = date.getFullYear();
+    const M = (date.getMonth() + 1).toString().padStart(2, "0");
+    const d = date.getDate().toString().padStart(2, "0");
     const h = date.getHours().toString().padStart(2, "0");
     const m = date.getMinutes().toString().padStart(2, "0");
-    return `${h}:${m}`;
+    return `${y}:${M}:${d}:${h}:${m}`;
   };
 
   type Method = "join" | "exit" | "send";
 
   const messageFormat = (type: Method, user: string, message: string) => {
-    return `%Struct.Chat{type: :${type}, user: "${user}", message: "${message}", time: "${getTime()}"}`;
+    return `{"type":"${type}","user":"${user}","message":"${message}","time":"${getTime()}"}`;
   };
 
   useEffect(() => {
-    if (socketRef.current) {
-      console.log("🟡 기존 WebSocket 연결이 존재합니다.");
-      return;
-    }
+    // if (socketRef.current) {
+    //   console.log("🟡 기존 WebSocket 연결이 존재합니다.",console.log(socketRef.current));
+    //   return;
+    // }
     const socket = new WebSocket(WS_URL);
-    socketRef.current = socket;
 
     socket.onopen = () => {
       console.log("✅ WebSocket 연결됨");
+      socketRef.current = socket;
       socket.send(messageFormat("join", user, "입장"));
     };
 
     socket.onmessage = (event) => {
       event.data.split("\n").forEach((msg: string) => {
-        let sendmessage = "",
-          sendtime = "",
-          senduser = "";
-        if (msg.startsWith("[입장]") || msg.startsWith("[퇴장]")) {
-          [sendmessage, sendtime] = msg.split("-");
-          senduser = "[system]";
-        } else {
-          let [content, time] = msg.split("-");
-          let [u, m] = content.split(":");
-          senduser = u;
-          sendmessage = m;
-          sendtime = time;
-        }
-        setMessages((prev) => [
-          ...prev,
-          { text: sendmessage, user: senduser, time: sendtime },
-        ]);
+        let message = JSON.parse(msg);
+        console.log(message);
       });
     };
 
     socket.onclose = () => {
+      socketRef.current = null;
       console.log("❌ WebSocket 연결 종료");
     };
 
-    socket.onerror = (e) => console.error("⚠️ 에러");
+    socket.onerror = (e) => console.error(e);
 
     return () => {
       socket.close();
-      socketRef.current = null;
-
     };
   }, []);
 

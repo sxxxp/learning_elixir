@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import Chat from "./Chat";
 import "./App.css";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
