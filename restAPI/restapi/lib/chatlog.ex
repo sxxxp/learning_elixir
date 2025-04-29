@@ -12,7 +12,7 @@ defmodule ChatLogger do
 
     case File.read(file_path) do
       {:ok, content} ->
-        String.split(content, "\n", trim: true)
+        content
 
       {:error, _reason} ->
         ""
@@ -24,9 +24,7 @@ defmodule ChatLogger do
 
     case File.read(file_path) do
       {:ok, content} ->
-        lines = String.split(content, "\n", trim: true)
-        last_line = List.last(lines)
-        last_line
+        content |> String.split("\n", trim: true) |> List.last()
 
       {:error, _reason} ->
         ""

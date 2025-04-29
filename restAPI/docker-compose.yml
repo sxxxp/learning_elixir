@@ -1,13 +1,22 @@
 version: '3.7'
 services:
   manager:
-    image: alpine:latest
+    image: ubuntu:latest
     tty: true
   worker1:
     image: sxxxp/aa:elixir
     ports:
     - "4000:4000"
   worker2:
-    image: nginx
+  image: sxxxp/aa:react
     ports:
-    - "8002:80"
+    - "3000:3000"
+  jenkins:
+    image: jenkins/jenkins:lts-jdk11
+    ports:
+    - "8080:8080"
+    volumes:
+    - my_vol1:/var/jenkins_home
+volumes:
+  my_vol1:
+    driver: local

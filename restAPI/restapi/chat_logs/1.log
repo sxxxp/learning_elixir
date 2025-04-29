@@ -1,1 +1,16 @@
-{type: "join",user: "하이", message: "입장", time: "2025:04:24:18:12"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:17:59"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:18:03"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:18:06"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:18:08"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:18:10"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:18:11"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:18:12"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:18:13"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:18:13"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:18:14"}
+{"type": "exit","user": "[system]", "message": "dd 퇴장", "time": "2025:04:29:18:14"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:18:14"}
+{"type": "send","user": "dd", "message": "됐다", "time": "2025:04:29:18:14"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:18:14"}
+{"type": "join","user": "[system]", "message": "dd 입장", "time": "2025:04:29:18:15"}
+{"type": "send","user": "dd", "message": "얍", "time": "2025:04:29:18:15"}

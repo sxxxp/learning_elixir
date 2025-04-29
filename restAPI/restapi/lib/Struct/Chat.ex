@@ -28,6 +28,6 @@ defmodule Struct.Chat do
   def migrate(_), do: {:error, :invalid_format}
 
   def to_string(%Struct.Chat{} = msg) do
-    "{type: \"#{msg.type}\",user: \"#{msg.user}\", message: \"#{msg.message}\", time: \"#{MyTime.get_to_string(msg.time)}\"}"
+    "{\"type\": \"#{msg.type}\",\"user\": \"#{msg.user}\", \"message\": \"#{msg.message}\", \"time\": \"#{MyTime.get_to_string(msg.time)}\"}"
   end
 end

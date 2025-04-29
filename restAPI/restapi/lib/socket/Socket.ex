@@ -18,24 +18,24 @@ defmodule Socket.Chat do
 
   def do_handle(%Struct.Chat{type: "join"} = msg, state) do
     data = read(state[:id]) <> "\n"
-    msg = migrate(msg)
+    msgStr = Struct.Chat.to_string(msg)
     log(state[:id], msg)
-    broadcast(:join, msg, state)
-    IO.inspect(msg)
-    IO.inspect(data)
-    {:push, {:text, data <> msg}, state}
+    broadcast(:join, msgStr, state)
+    {:push, {:text, data <> msgStr}, state}
   end
 
   def do_handle(%Struct.Chat{type: "send"} = msg, state) do
     log(state[:id], msg)
-    broadcast(:send, msg, state)
-    {:push, {:text, msg}, state}
+    msgStr = Struct.Chat.to_string(msg)
+    broadcast(:send, msgStr, state)
+    {:push, {:text, msgStr}, state}
   end
 
   def do_handle(%Struct.Chat{type: "exit"} = msg, state) do
     log(state[:id], msg)
-    broadcast(:exit, msg, state)
-    {:push, {:text, msg}, state}
+    msgStr = Struct.Chat.to_string(msg)
+    broadcast(:exit, msgStr, state)
+    {:push, {:text, msgStr}, state}
   end
 
   def do_handle(_, state) do

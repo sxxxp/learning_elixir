@@ -10,9 +10,11 @@ const rooms = [
   { id: "4", name: "📚 공부 채팅방" },
   { id: "5", name: "😄 수다 채팅방" },
 ];
+type Method = "join" | "exit" | "send";
 
 interface Message {
-  text: string;
+  type: Method;
+  message: string;
   user: string;
   time: string;
 }
@@ -20,12 +22,11 @@ interface Message {
 const ChatMessage = ({ message }: { message: Message }) => {
   const cookie = new Cookies();
   const isOwn = message.user === cookie.get("nickname");
-
   if (message.user === "[system]") {
     return (
       <div className="system-message">
         <span>
-          {message.text} <span className="timestamp">{message.time}</span>
+          {message.message} <span className="timestamp">{message.time}</span>
         </span>
       </div>
     );
@@ -46,7 +47,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
           <span className="username">{message.user}</span>
           <span className="timestamp">{message.time}</span>
         </div>
-        <div className="message-bubble">{message.text}</div>
+        <div className="message-bubble">{message.message}</div>
       </div>
     </div>
   );
@@ -86,8 +87,6 @@ const Chat: React.FC = () => {
     return `${y}:${M}:${d}:${h}:${m}`;
   };
 
-  type Method = "join" | "exit" | "send";
-
   const messageFormat = (type: Method, user: string, message: string) => {
     return `{"type":"${type}","user":"${user}","message":"${message}","time":"${getTime()}"}`;
   };
@@ -102,13 +101,20 @@ const Chat: React.FC = () => {
     socket.onopen = () => {
       console.log("✅ WebSocket 연결됨");
       socketRef.current = socket;
-      socket.send(messageFormat("join", user, "입장"));
+      socket.send(messageFormat("join", "[system]", `${user} 입장`));
     };
 
     socket.onmessage = (event) => {
       event.data.split("\n").forEach((msg: string) => {
-        let message = JSON.parse(msg);
-        console.log(message);
+        if(msg==="") return;
+        try{
+          let message: Message = JSON.parse(msg);
+          setMessages((prev) => [...prev, message]);
+
+        }catch(e){
+          console.log("메시지 원본:",msg);
+          console.error("메시지 파싱 오류:", e);
+        }
       });
     };
 
@@ -144,7 +150,7 @@ const Chat: React.FC = () => {
 
   const exitChat = () => {
     if (socketRef.current) {
-      socketRef.current.send(messageFormat("exit", user, "퇴장"));
+      socketRef.current.send(messageFormat("exit", "[system]", `${user} 퇴장`));
       socketRef.current.close();
       socketRef.current = null;
     }
@@ -152,7 +158,8 @@ const Chat: React.FC = () => {
     setMessages((prev) => [
       ...prev,
       {
-        text: "👋 유저님이 채팅을 떠났습니다.",
+        type: "exit",
+        message: "👋 유저님이 채팅을 떠났습니다.",
         user: "[system]",
         time: getTime(),
       },
